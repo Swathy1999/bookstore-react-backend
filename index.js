@@ -18,13 +18,25 @@ server.use(express.json())
 // use routes 
 server.use(routes)
 
+// handling static file/folder
+server.use('/uploads', express.static('./uploads'))
+
 //port
 const PORT=process.env.PORT
+
+
 
 // start server 
 server.listen(PORT, ()=>{
 console.log("Server Started.....");
 })
+
+
+// handling global errors in server using application specific middleware 
+server.use((err, req, res, next)=>{
+    res.status(500).json(err.message)
+})
+
 
 // resolve api in browser using get request
 server.get('/', (req, res)=>{
